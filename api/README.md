@@ -1,8 +1,8 @@
-##Environment
+## Environment
 Java 11  
 Gradle 7.4.1
 
-##Requirement
+## Requirement
 1. Every employee who joins the company, is entitled to receive an extra benefit package
    with the amount equivalent to the candidate’s onboarding base yearly package.
    The amount is calculated based on the CRO (crypto.com’s cryptocurrency) price, you can check the price here https://crypto.com/price/crypto-com-coin
@@ -15,27 +15,27 @@ Assume that Alice Wong is receiving a base yearly package of X US dollars , and 
 1st year anniversary, can you design a simple program to help Alice to calculate her actual
 rewards in USD.
 
-##Reference api
+## Reference api
 1. all currency https://price-api.crypto.com/price/v1/currency/all
 2. candlestick CRO_USDT By D, https://api.crypto.com/v2/public/get-candlestick?instrument_name=CRO_USDT&timeframe=1D
 
-##Api Doc
+## Api Doc
 
-###Url
+### Url
 /api/v1/users/get-user-extra-benefit-package
 
-###Header
+### Header
 | Name         | Type   | Size | Must | Description            |
 |--------------|--------|------|------|------------------------|
 | Content-Type | string | -    | Y    | application/json       |
 
-###Parameter
+### Parameter
 | Name                     | Type   | Size | Must | Description                                                  |
 |--------------------------|--------|------|------|--------------------------------------------------------------|
 | receiveBaseYearlyPackage | int    | -    | Y    | Receiving a base yearly package of X US dollars              |
 | onBoardDay               | string | -    | Y    | On board date <br/>yyyy-MM-dd<br/>yyyy/MM/dd<br/>yyyyMMdd    |
 
-###Response
+### Response
 | Name                        | Type   | Size | Must | Description                                                                                 |
 |-----------------------------|--------|------|------|---------------------------------------------------------------------------------------------|
 | avgVWAP                     | int    | -    | Y    | Average of your VWAP                                                                        |
@@ -43,7 +43,7 @@ rewards in USD.
 | sumCros                     | int    | -    | Y    | Sum of CROs                                                                                 |
 | baseYearlyPackageUSD        | int    | -    | Y    | Your base yearly package US dollars                                                         |
 
-###yearExtraBenefitPackageCROs Object
+### yearExtraBenefitPackageCROs Object
 | Name | Type | Size | Must | Description                              |
 |------|------|------|------|------------------------------------------|
 | 4y   | int  | -    | Y    | 4st year anniversary will receive X CROs |
@@ -51,13 +51,13 @@ rewards in USD.
 | 2y   | int  | -    | Y    | 2st year anniversary will receive X CROs |
 | 1y   | int  | -    | Y    | 1st year anniversary will receive X CROs |
 
-###Error Code
+### Error Code
 | HTTP Status | Error         | Description                                                     |
 |-------------|---------------|-----------------------------------------------------------------|
 | 400         | badOnBoardDay | On board day format is invalid [On board day format is invalid] |
 | 500         | internalError | Internal error                                                  |
 
-###Example
+### Example
 ```
 POST http://localhost:8080/api/v1/users/get-user-extra-benefit-package
 RequestBody
