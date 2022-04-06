@@ -1,0 +1,82 @@
+plugins {
+	id 'org.springframework.boot' version '2.6.5'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+	id 'application'
+	id "io.freefair.lombok" version "6.4.1"
+}
+
+group = 'com.crypto'
+version = 'V1.0.0.0'
+
+sourceCompatibility = JavaVersion.VERSION_11
+targetCompatibility = JavaVersion.VERSION_11
+
+repositories {
+	mavenCentral()
+}
+
+bootJar {
+	mainClassName = 'com.crypto.CryptoApplication'
+	archiveFileName = "crypto.${archiveExtension.get()}"
+}
+
+springBoot {
+	buildInfo {
+		properties {
+			time = null
+		}
+	}
+}
+
+ext {
+	collections4Version = "4.4"
+	jjwtVersion = '0.11.2'
+}
+
+processResources { 
+	def springProfiles = project.getProperties().getOrDefault("springProfiles", "prod")
+
+	println "Enable springProfiles:$springProfiles" 
+
+	filesMatching("**/application.properties") {
+		expand('springProfiles': springProfiles)
+	}
+
+	include '**/application.properties'
+	include "**/application-${springProfiles}.properties"
+}
+
+configurations.all {
+ 	exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+	exclude group: 'ch.qos.logback', module: 'logback-classic'
+}
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-integration'
+	implementation 'org.springframework.boot:spring-boot-starter-log4j2'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.apache.commons:commons-lang3'
+	implementation "org.apache.commons:commons-collections4:$collections4Version"
+	implementation 'org.apache.httpcomponents:httpclient'
+	implementation group: 'com.alibaba', name: 'fastjson', version: '1.2.75'
+	implementation group: 'org.jsoup', name: 'jsoup', version: '1.14.3'
+	implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.17.1'
+	implementation group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.17.1'
+	implementation group: 'org.apache.logging.log4j', name: 'log4j-jul', version: '2.17.1'
+	implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.17.1'
+	implementation group: 'com.mashape.unirest', name: 'unirest-java', version: '1.4.9'
+
+	implementation 'org.junit.jupiter:junit-jupiter:5.8.2'
+	implementation 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+	implementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+	implementation 'org.springframework.boot:spring-boot-starter-test:2.6.5'
+
+
+}
+
+test {
+	useJUnitPlatform()
+}

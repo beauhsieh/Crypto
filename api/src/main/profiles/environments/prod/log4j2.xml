@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<Configuration status="ERROR">
+	<Appenders>
+
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} %c{1} - %msg%n" />
+		</Console>
+		<RollingFile name="RollingFile" fileName="./logs/crypto.log"
+					 filePattern="./logs/crypto-%d{yyyy-MM-dd}.%i.log.gz"> <!-- roll over every HOUR -->
+			<PatternLayout>
+				<Pattern>[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} %c{1} - %msg%n</Pattern>
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1" />
+			</Policies>
+			<DefaultRolloverStrategy max="20">
+				<Delete basePath="logs" maxDepth="1">
+					<IfFileName glob="*.log.gz"/>
+					<IfLastModified age="14d"/>
+				</Delete>
+			</DefaultRolloverStrategy>
+		</RollingFile>
+		<Async name="AsyncRollingFile">
+			<AppenderRef ref="RollingFile" />
+		</Async>
+	</Appenders>
+
+	<Loggers>
+		<Root level="info">
+			<AppenderRef ref="Console" level="errpr" />
+			<AppenderRef ref="AsyncRollingFile" level="info" />
+		</Root>
+	</Loggers>
+</Configuration>
